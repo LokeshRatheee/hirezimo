@@ -15,4 +15,18 @@ async function main() {
         Designation : "Consultant",
     },
   });
+
+
+  await prisma.User.create({
+    data : {
+      name : "lokesh",
+      email : "lokesh.rathee@poplify.com",
+      password : "123456789",
+      Current_Company  : "poplify",
+      Location : "sonipat",
+      Contact_Number : "123456789",
+      is_Company : false,
+      is_social : false,
+    }
+  })
 }
