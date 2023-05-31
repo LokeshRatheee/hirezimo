@@ -8,19 +8,19 @@ datasource db {
 }
 
 model Company {
-  id                    Int       @id @default(autoincrement())
-  Name                  String
-  Company_Description   String
-  email                 String    @unique
-  password              String
-  Location              String
-  Contact_Number        String
-  Organisation          String
-  Designation           String
-  Linkedin_Profiles     String
-  created_at            DateTime  @default(now())
-  uid                   String
-  jobs                  Job[]
+  id                  Int      @id @default(autoincrement())
+  Name                String
+  Company_Description String
+  email               String
+  password            String
+  Location            String
+  Contact_Number      String
+  Organisation        String
+  Designation         String?
+  Linkedin_Profiles   String?
+  created_at          DateTime @default(now())
+  uid                 String?
+  jobs                Job[]
 }
 
 enum JobStatus {
@@ -29,36 +29,36 @@ enum JobStatus {
 }
 
 model Job {
-  id                    Int          @id @default(autoincrement())
-  created_at            DateTime     @default(now())
-  company_id            Int
-  company               Company      @relation(fields: [company_id], references: [id])
-  Title                 String
-  Referral_Payout       Int
-  Number_of_positions   Int
-  Location              String
-  Salary                Int
-  Joining_Date          DateTime
-  Status                JobStatus
-  user_jobs             User_Job[]
+  id                  Int        @id @default(autoincrement())
+  created_at          DateTime   @default(now())
+  company_id          Int
+  Title               String
+  Referral_Payout     Int
+  Number_of_positions Int
+  Location            String
+  Salary              Int
+  Joining_Date        DateTime
+  Status              JobStatus
+  user_jobs           User_Job[]
+  company             Company    @relation(fields: [company_id], references: [id])
 }
 
 model User {
-  id                    Int          @id @default(autoincrement())
-  created_at            DateTime     @default(now())
-  name                  String
-  email                 String       @unique
-  password              String
-  Linkedin_Profiles     String
-  Current_Company       String
-  Location              String
-  Contact_Number        String
-  firebase_token        String
-  is_Company            Boolean
-  is_Social             Boolean
-  Platform              String
-  Uid                   String       @unique
-  user_jobs             User_Job[]
+  id                Int        @id @default(autoincrement())
+  created_at        DateTime   @default(now())
+  name              String
+  email             String
+  password          String
+  Linkedin_Profiles String?
+  Current_Company   String
+  Location          String
+  Contact_Number    String
+  firebase_token    String?
+  is_Company        Boolean
+  is_Social         Boolean
+  Platform          String?
+  Uid               String?    @unique
+  user_jobs         User_Job[]
 }
 
 enum Status {
@@ -70,14 +70,14 @@ enum Status {
 }
 
 model User_Job {
-  id                 Int          @id @default(autoincrement())
-  created_at         DateTime     @default(now())
+  id                 Int      @id @default(autoincrement())
+  created_at         DateTime @default(now())
   user_id            Int
-  user               User         @relation(fields: [user_id], references: [id])
+  user               User     @relation(fields: [user_id], references: [id])
   candidate_email    String
   job_id             Int
-  job                Job          @relation(fields: [job_id], references: [id])
-  cv                 Bytes
+  job                Job      @relation(fields: [job_id], references: [id])
+  cv                 Bytes?
   application_status Status
-  remark             String
+  remark             String?
 }
