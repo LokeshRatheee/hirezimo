@@ -2,7 +2,13 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 async function main() {
-  await prisma.Company.create({
+  await prisma.User_Job.deleteMany({})
+  await prisma.Job.deleteMany({}),
+  await prisma.Company.deleteMany({});
+  await prisma.User.deleteMany({});
+
+
+  const companys = await prisma.Company.create({
     data: {
       Name: "Poplify",
       Company_Description:
@@ -15,8 +21,9 @@ async function main() {
       Designation: "Consultant",
     },
   });
+  // console.log(companys)
 
-  await prisma.User.create({
+  const Users = await prisma.User.create({
     data: {
       name: "lokesh",
       email: "lokesh.rathee@poplify.com",
@@ -29,15 +36,22 @@ async function main() {
     },
   });
 
-  await prisma.Job.create({
+  const Jobs = await prisma.Job.create({
     data: {
       Title: "Software Engineeer",
-      Referral_Payout: 10000,
+      Referral_Payout: 100,
       Number_of_positions: 2,
       Location: "Noida",
       Salary: 450000,
       Joining_Date: new Date("2023-05-30"),
       Status: "Inactive",
+      // company : companys.id,
+      company: {
+        connect: {
+          // Connect the job to the newly created company
+          id: companys.id,
+        },
+      },
     },
   });
 
@@ -45,6 +59,16 @@ async function main() {
     data: {
       candidate_email: "chirag@poplify.com",
       application_status: "Accept",
+      user: {
+        connect : {
+          id : Users.id
+        }
+      },
+      job : {
+        connect : {
+          id : Jobs.id,
+        }
+      }
     },
   });
 }
