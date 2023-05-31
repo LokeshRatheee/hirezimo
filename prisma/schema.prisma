@@ -11,15 +11,15 @@ model Company {
   id                    Int       @id @default(autoincrement())
   Name                  String
   Company_Description   String
-  email                 String    @unique
+  email                 String    
   password              String
   Location              String
   Contact_Number        String
   Organisation          String
-  Designation           String
-  Linkedin_Profiles     String
+  Designation           String?
+  Linkedin_Profiles     String?
   created_at            DateTime  @default(now())
-  uid                   String
+  uid                   String?
   jobs                  Job[]
 }
 
@@ -47,17 +47,17 @@ model User {
   id                    Int          @id @default(autoincrement())
   created_at            DateTime     @default(now())
   name                  String
-  email                 String       @unique
+  email                 String       
   password              String
-  Linkedin_Profiles     String
+  Linkedin_Profiles     String?
   Current_Company       String
   Location              String
   Contact_Number        String
-  firebase_token        String
+  firebase_token        String?
   is_Company            Boolean
   is_Social             Boolean
-  Platform              String
-  Uid                   String       @unique
+  Platform              String?
+  Uid                   String?      @unique
   user_jobs             User_Job[]
 }
 
@@ -77,7 +77,7 @@ model User_Job {
   candidate_email    String
   job_id             Int
   job                Job          @relation(fields: [job_id], references: [id])
-  cv                 Bytes
+  cv                 Bytes?
   application_status Status
-  remark             String
+  remark             String?
 }
